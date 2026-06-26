@@ -172,6 +172,19 @@ if(TFM_NRF_MRAMC_SERVICE)
     )
 endif()
 
+# RAM-control service: non-secure RAM power-down (System ON) + retention (System OFF).
+# Enabled from zephyr via -DNRF_RAM_CTRL_SERVICE=ON; needs the nrfx ram_ctrl helper.
+if(NRF_RAM_CTRL_SERVICE)
+    target_sources(platform_s
+        PRIVATE
+            ${HAL_NORDIC_PATH}/nrfx/helpers/nrfx_ram_ctrl.c
+    )
+    target_compile_definitions(platform_s
+        PUBLIC
+            TFM_NRF_RAM_CTRL_SERVICE
+    )
+endif()
+
 target_compile_options(platform_s
     PUBLIC
         ${COMPILER_CMSE_FLAG}
